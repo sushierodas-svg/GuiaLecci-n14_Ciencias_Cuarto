@@ -1,0 +1,733 @@
+import React, { useState } from 'react';
+import { 
+  ChevronLeft, ChevronRight, Target, Brain, BookOpen, Activity, 
+  Search, CheckCircle, XCircle, Shield, Heart, Zap, Award, 
+  Star, MessageSquare, AlertTriangle, Smile
+} from 'lucide-react';
+
+// --- PALETA DE COLORES ESCOLARIS ---
+const colors = {
+  orange: '#db6015',
+  yellow: '#f7be00',
+  darkBlue: '#244b5a',
+  red: '#993921',
+  lightBlue: '#f0f8ff',
+  white: '#ffffff'
+};
+
+export default function EscolarisGuide() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const nextSlide = () => {
+    if (currentSlide < 11) setCurrentSlide(currentSlide + 1);
+  };
+
+  const prevSlide = () => {
+    if (currentSlide > 0) setCurrentSlide(currentSlide - 1);
+  };
+
+  // --- ESTRUCTURA DE DIAPOSITIVAS ---
+  const slides = [
+    <Slide1_Portada key="s1" />,
+    <Slide2_Objetivos key="s2" />,
+    <Slide3_Activacion key="s3" />,
+    <Slide4_PalabrasClave key="s4" />,
+    <Slide5_Contenido key="s5" />,
+    <Slide6_Exploracion key="s6" />,
+    <Slide7_Comprension key="s7" />,
+    <Slide8_Juego key="s8" />,
+    <Slide9_Aplicacion key="s9" />,
+    <Slide10_Repaso key="s10" />,
+    <Slide11_Metacognicion key="s11" />,
+    <Slide12_Cierre key="s12" />
+  ];
+
+  return (
+    <div className="w-full h-screen flex items-center justify-center p-2 sm:p-4" style={{ backgroundColor: '#e2e8f0', fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif' }}>
+      
+      {/* Contenedor Principal (Simula el libro/tablet) */}
+      <div 
+        className="relative w-full max-w-5xl h-full max-h-[800px] rounded-3xl shadow-2xl overflow-hidden flex"
+        style={{ backgroundColor: colors.lightBlue }}
+      >
+        
+        {/* Flecha Izquierda */}
+        {currentSlide > 0 && (
+          <button 
+            onClick={prevSlide}
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-20 p-3 sm:p-4 rounded-full shadow-lg transition-transform hover:scale-110 active:scale-95 flex items-center justify-center"
+            style={{ backgroundColor: colors.orange, color: colors.white }}
+            aria-label="Anterior"
+          >
+            <ChevronLeft size={36} strokeWidth={3} />
+          </button>
+        )}
+
+        {/* Área de Contenido */}
+        <div className="flex-1 w-full h-full overflow-y-auto overflow-x-hidden p-8 sm:p-12 md:px-20 relative">
+          
+          {/* Header Institucional */}
+          <div className="absolute top-4 left-6 right-6 flex justify-between items-center opacity-80 pointer-events-none">
+            <div className="font-bold tracking-wider text-sm sm:text-base" style={{ color: colors.darkBlue }}>
+              COLEGIO ESCOLARIS <span style={{ color: colors.orange }}>|</span> ONLINE
+            </div>
+            <div className="font-semibold text-sm bg-white px-3 py-1 rounded-full shadow-sm" style={{ color: colors.darkBlue }}>
+              Lección 14
+            </div>
+          </div>
+
+          {/* Renderizado de la diapositiva actual */}
+          <div className="w-full h-full flex flex-col justify-center animate-fade-in pt-6">
+            {slides[currentSlide]}
+          </div>
+          
+          {/* Indicador de progreso */}
+          <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2 pointer-events-none">
+            {slides.map((_, idx) => (
+              <div 
+                key={idx} 
+                className="h-2 rounded-full transition-all duration-300"
+                style={{ 
+                  width: currentSlide === idx ? '24px' : '8px',
+                  backgroundColor: currentSlide === idx ? colors.orange : '#cbd5e1'
+                }}
+              />
+            ))}
+          </div>
+
+        </div>
+
+        {/* Flecha Derecha */}
+        {currentSlide < 11 && (
+          <button 
+            onClick={nextSlide}
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-20 p-3 sm:p-4 rounded-full shadow-lg transition-transform hover:scale-110 active:scale-95 flex items-center justify-center animate-pulse"
+            style={{ backgroundColor: colors.orange, color: colors.white }}
+            aria-label="Siguiente"
+          >
+            <ChevronRight size={36} strokeWidth={3} />
+          </button>
+        )}
+
+      </div>
+
+      {/* Estilos CSS integrados para animaciones básicas */}
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+          animation: fadeIn 0.4s ease-out forwards;
+        }
+        .pulse-dot {
+          animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+        @keyframes ping {
+          75%, 100% { transform: scale(2); opacity: 0; }
+        }
+      `}} />
+    </div>
+  );
+}
+
+// ==========================================
+// COMPONENTES DE DIAPOSITIVAS (1 al 12)
+// ==========================================
+
+function Slide1_Portada() {
+  return (
+    <div className="text-center flex flex-col items-center justify-center h-full">
+      <div className="bg-white p-6 rounded-3xl shadow-xl mb-8 border-4" style={{ borderColor: colors.yellow }}>
+        <Shield size={80} style={{ color: colors.orange }} className="mx-auto mb-4" />
+        <h2 className="text-xl font-bold uppercase tracking-widest mb-2" style={{ color: colors.darkBlue }}>
+          Ciencias Naturales • 4° Primaria
+        </h2>
+        <h1 className="text-4xl sm:text-5xl font-extrabold mb-4 leading-tight" style={{ color: colors.darkBlue }}>
+          La Violencia y el <br/>
+          <span style={{ color: colors.orange }}>Cuidado de Nuestro Cuerpo</span>
+        </h1>
+      </div>
+      <p className="text-lg sm:text-xl font-medium max-w-lg bg-white/70 px-6 py-3 rounded-2xl" style={{ color: colors.darkBlue }}>
+        ¡Hola! Hoy aprenderemos cómo proteger nuestra mente y cuerpo para crecer sanos, fuertes y felices en un entorno seguro. 🌟
+      </p>
+    </div>
+  );
+}
+
+function Slide2_Objetivos() {
+  return (
+    <div className="flex flex-col h-full justify-center">
+      <div className="flex items-center mb-8 gap-4">
+        <div className="p-4 rounded-2xl shadow-md" style={{ backgroundColor: colors.yellow }}>
+          <Target size={40} style={{ color: colors.darkBlue }} />
+        </div>
+        <h1 className="text-3xl sm:text-4xl font-bold" style={{ color: colors.darkBlue }}>
+          Nuestros Objetivos
+        </h1>
+      </div>
+      
+      <div className="space-y-6">
+        <div className="bg-white p-6 rounded-2xl shadow-md flex items-start gap-4 transform transition hover:-translate-y-1">
+          <div className="p-2 rounded-full mt-1" style={{ backgroundColor: colors.lightBlue, color: colors.darkBlue }}>
+            <span className="font-bold text-xl">1</span>
+          </div>
+          <p className="text-xl sm:text-2xl font-semibold" style={{ color: colors.darkBlue }}>
+            Comprender qué es la violencia y cómo afecta a nuestro sistema nervioso y salud física.
+          </p>
+        </div>
+        <div className="bg-white p-6 rounded-2xl shadow-md flex items-start gap-4 transform transition hover:-translate-y-1">
+          <div className="p-2 rounded-full mt-1" style={{ backgroundColor: colors.lightBlue, color: colors.darkBlue }}>
+            <span className="font-bold text-xl">2</span>
+          </div>
+          <p className="text-xl sm:text-2xl font-semibold" style={{ color: colors.darkBlue }}>
+            Identificar formas de protegernos, cuidar nuestra mente y pedir ayuda cuando sea necesario.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Slide3_Activacion() {
+  return (
+    <div className="flex flex-col items-center justify-center h-full text-center">
+      <h1 className="text-3xl sm:text-4xl font-bold mb-8" style={{ color: colors.darkBlue }}>
+        Antes de empezar...
+      </h1>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 w-full max-w-4xl">
+        <div className="bg-white p-8 rounded-3xl shadow-lg border-b-8 flex flex-col items-center" style={{ borderColor: colors.orange }}>
+          <Heart size={60} style={{ color: colors.red }} className="mb-6" />
+          <h3 className="text-xl font-bold mb-4" style={{ color: colors.darkBlue }}>
+            ¿Cómo se siente tu cuerpo cuando te asustas o te tratan mal?
+          </h3>
+          <p className="text-gray-600 font-medium">
+            (Piénsalo un momento: ¿tu corazón late rápido?, ¿te duele el estómago?)
+          </p>
+        </div>
+
+        <div className="bg-white p-8 rounded-3xl shadow-lg border-b-8 flex flex-col items-center" style={{ borderColor: colors.yellow }}>
+          <Brain size={60} style={{ color: colors.orange }} className="mb-6" />
+          <h3 className="text-xl font-bold mb-4" style={{ color: colors.darkBlue }}>
+            ¿Sabías que tu cerebro reacciona al peligro?
+          </h3>
+          <p className="text-gray-600 font-medium">
+            ¡Así es! Nuestro cuerpo tiene alarmas naturales para protegernos.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Slide4_PalabrasClave() {
+  return (
+    <div className="flex flex-col h-full justify-center">
+      <h1 className="text-3xl sm:text-4xl font-bold mb-8 text-center" style={{ color: colors.darkBlue }}>
+        Palabras Clave
+      </h1>
+      
+      <div className="flex flex-col gap-4">
+        <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-md flex items-center gap-6 border-l-8" style={{ borderColor: colors.red }}>
+          <div className="bg-red-50 p-4 rounded-full"><AlertTriangle size={32} style={{ color: colors.red }}/></div>
+          <div>
+            <h2 className="text-2xl font-bold mb-1" style={{ color: colors.darkBlue }}>Violencia</h2>
+            <p className="text-lg text-gray-700">Cualquier acción que cause daño físico o emocional a nosotros mismos o a los demás.</p>
+          </div>
+        </div>
+
+        <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-md flex items-center gap-6 border-l-8" style={{ borderColor: colors.yellow }}>
+          <div className="bg-yellow-50 p-4 rounded-full"><Smile size={32} style={{ color: colors.orange }}/></div>
+          <div>
+            <h2 className="text-2xl font-bold mb-1" style={{ color: colors.darkBlue }}>Salud Integral</h2>
+            <p className="text-lg text-gray-700">Estar bien de nuestro cuerpo (físico) y de nuestra mente y emociones (psicológico).</p>
+          </div>
+        </div>
+
+        <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-md flex items-center gap-6 border-l-8" style={{ borderColor: colors.darkBlue }}>
+          <div className="bg-blue-50 p-4 rounded-full"><Shield size={32} style={{ color: colors.darkBlue }}/></div>
+          <div>
+            <h2 className="text-2xl font-bold mb-1" style={{ color: colors.darkBlue }}>Prevención</h2>
+            <p className="text-lg text-gray-700">Tomar medidas antes de que ocurra un problema para mantenernos seguros y sanos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Slide5_Contenido() {
+  return (
+    <div className="flex flex-col h-full justify-center">
+      <h1 className="text-3xl sm:text-4xl font-bold mb-6 text-center" style={{ color: colors.darkBlue }}>
+        ¿Por qué la violencia afecta nuestra salud?
+      </h1>
+      
+      <div className="bg-white p-6 rounded-2xl shadow-lg mb-6">
+        <p className="text-xl text-center font-medium" style={{ color: colors.darkBlue }}>
+          Desde las Ciencias Naturales, sabemos que el estrés constante por malos tratos hace que nuestro cerebro libere sustancias que, en exceso, pueden enfermarnos.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="bg-blue-50 p-6 rounded-2xl border-2" style={{ borderColor: colors.darkBlue }}>
+          <h3 className="text-xl font-bold flex items-center gap-2 mb-3" style={{ color: colors.darkBlue }}>
+            <Activity size={24} style={{ color: colors.orange }} /> Daño Físico
+          </h3>
+          <p className="text-gray-700 text-lg">
+            Golpes o empujones lastiman nuestros músculos, huesos y piel. Nuestro cuerpo necesita energía para sanar en lugar de usarla para crecer.
+          </p>
+        </div>
+
+        <div className="bg-orange-50 p-6 rounded-2xl border-2" style={{ borderColor: colors.orange }}>
+          <h3 className="text-xl font-bold flex items-center gap-2 mb-3" style={{ color: colors.darkBlue }}>
+            <MessageSquare size={24} style={{ color: colors.orange }} /> Daño Psicológico
+          </h3>
+          <p className="text-gray-700 text-lg">
+            Las burlas y los insultos (incluso por internet) causan "dolor emocional". Afectan nuestro sueño, apetito y defensas contra enfermedades.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Slide6_Exploracion() {
+  const [activeItem, setActiveItem] = useState(null);
+
+  const parts = [
+    { id: 'cerebro', title: 'Cerebro y Sistema Nervioso', desc: 'Siente estrés y miedo. Le cuesta concentrarse en aprender cuando no se siente seguro.', top: '15%', left: '50%' },
+    { id: 'corazon', title: 'Corazón', desc: 'Late muy rápido por el miedo, lo que cansa a nuestro cuerpo si sucede muy seguido.', top: '35%', left: '50%' },
+    { id: 'estomago', title: 'Aparato Digestivo', desc: 'El miedo y la tristeza pueden causar dolor de estómago o hacer que perdamos el apetito.', top: '55%', left: '50%' }
+  ];
+
+  return (
+    <div className="flex flex-col h-full">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-center" style={{ color: colors.darkBlue }}>
+        Exploración Visual
+      </h1>
+      <p className="text-center font-bold mb-4 text-lg animate-pulse" style={{ color: colors.orange }}>
+        Haz clic en los puntos interactivos para explorar
+      </p>
+
+      <div className="flex-1 flex flex-col md:flex-row gap-6 items-center">
+        {/* Contenedor de la figura humana simulada */}
+        <div className="relative w-full md:w-1/2 h-64 md:h-full bg-white rounded-3xl shadow-inner border-4 border-gray-100 flex items-center justify-center overflow-hidden">
+          {/* Silueta abstracta */}
+          <div className="w-32 h-64 bg-blue-100 rounded-full relative">
+            {parts.map((part) => (
+              <button
+                key={part.id}
+                onClick={() => setActiveItem(part)}
+                className="absolute w-8 h-8 -ml-4 -mt-4 rounded-full flex items-center justify-center z-10 transition-transform hover:scale-125 focus:outline-none"
+                style={{ top: part.top, left: part.left, backgroundColor: colors.orange }}
+              >
+                <div className="absolute w-full h-full rounded-full pulse-dot" style={{ backgroundColor: colors.orange }}></div>
+                <div className="w-4 h-4 rounded-full bg-white z-20"></div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Panel de información */}
+        <div className="w-full md:w-1/2 h-48 md:h-full">
+          {activeItem ? (
+            <div className="bg-white p-8 rounded-3xl shadow-xl h-full border-t-8 animate-fade-in" style={{ borderColor: colors.yellow }}>
+              <h2 className="text-2xl font-bold mb-4" style={{ color: colors.darkBlue }}>{activeItem.title}</h2>
+              <p className="text-xl text-gray-700">{activeItem.desc}</p>
+            </div>
+          ) : (
+            <div className="bg-white/50 border-2 border-dashed p-8 rounded-3xl h-full flex items-center justify-center text-center">
+              <p className="text-xl font-medium" style={{ color: colors.darkBlue }}>
+                Toca un círculo naranja en la figura para descubrir cómo reacciona el cuerpo.
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Slide7_Comprension() {
+  const [status, setStatus] = useState('idle'); // idle, correct, incorrect
+
+  const checkAnswer = (isCorrect) => {
+    setStatus(isCorrect ? 'correct' : 'incorrect');
+  };
+
+  return (
+    <div className="flex flex-col h-full justify-center">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center" style={{ color: colors.darkBlue }}>
+        Actividad de Comprensión
+      </h1>
+      
+      <div className="bg-white p-8 rounded-3xl shadow-lg w-full max-w-2xl mx-auto">
+        <p className="text-xl sm:text-2xl font-bold mb-6 text-center" style={{ color: colors.darkBlue }}>
+          ¿Qué es la "Salud Integral" según las Ciencias Naturales?
+        </p>
+
+        {status === 'idle' && (
+          <div className="space-y-4">
+            <button onClick={() => checkAnswer(false)} className="w-full p-4 rounded-xl border-2 border-gray-200 text-left hover:border-orange-500 hover:bg-orange-50 transition text-lg font-medium">
+              A) Solamente no estar enfermo de gripe o tos.
+            </button>
+            <button onClick={() => checkAnswer(true)} className="w-full p-4 rounded-xl border-2 border-gray-200 text-left hover:border-orange-500 hover:bg-orange-50 transition text-lg font-medium">
+              B) El bienestar de nuestro cuerpo físico, mente y emociones.
+            </button>
+            <button onClick={() => checkAnswer(false)} className="w-full p-4 rounded-xl border-2 border-gray-200 text-left hover:border-orange-500 hover:bg-orange-50 transition text-lg font-medium">
+              C) Estar felices todo el tiempo sin importar lo que pase.
+            </button>
+          </div>
+        )}
+
+        {status === 'correct' && (
+          <div className="text-center animate-fade-in p-6">
+            <CheckCircle size={80} style={{ color: '#10b981' }} className="mx-auto mb-4" />
+            <h2 className="text-3xl font-bold mb-2 text-green-600">¡Correcto!</h2>
+            <p className="text-xl text-gray-700">
+              La salud integral significa cuidar tanto nuestro cuerpo como nuestras emociones para crecer fuertes.
+            </p>
+          </div>
+        )}
+
+        {status === 'incorrect' && (
+          <div className="text-center animate-fade-in p-6">
+            <XCircle size={80} style={{ color: colors.red }} className="mx-auto mb-4" />
+            <h2 className="text-3xl font-bold mb-2" style={{ color: colors.red }}>Casi...</h2>
+            <p className="text-xl text-gray-700 mb-6">
+              Recuerda que la salud no solo se trata del cuerpo, ¡nuestra mente y emociones también importan!
+            </p>
+            <button 
+              onClick={() => setStatus('idle')}
+              className="px-8 py-3 rounded-full text-white font-bold text-lg shadow-md transition hover:scale-105"
+              style={{ backgroundColor: colors.orange }}
+            >
+              Inténtalo de nuevo
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function Slide8_Juego() {
+  const situations = [
+    { text: "Burlarse del aspecto físico de un compañero", isViolence: true },
+    { text: "Invitar a jugar a alguien nuevo en el recreo o en un juego online", isViolence: false },
+    { text: "Empujar a alguien en los pasillos a propósito", isViolence: true },
+    { text: "Escuchar cuando alguien está triste y ofrecer ayuda", isViolence: false }
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [feedback, setFeedback] = useState(null); // null, 'success', 'error'
+  const [score, setScore] = useState(0);
+
+  const handleChoice = (choseViolence) => {
+    const current = situations[currentIndex];
+    if (choseViolence === current.isViolence) {
+      setFeedback('success');
+      setTimeout(() => {
+        setScore(score + 1);
+        setFeedback(null);
+        setCurrentIndex(currentIndex + 1);
+      }, 1500);
+    } else {
+      setFeedback('error');
+    }
+  };
+
+  if (currentIndex >= situations.length) {
+    return (
+      <div className="text-center h-full flex flex-col justify-center items-center">
+        <Award size={100} style={{ color: colors.yellow }} className="mb-6 animate-bounce" />
+        <h1 className="text-4xl font-bold mb-4" style={{ color: colors.darkBlue }}>¡Juego Completado!</h1>
+        <p className="text-2xl font-medium text-gray-700">Eres un experto reconociendo el buen trato.</p>
+        <button 
+          onClick={() => { setCurrentIndex(0); setScore(0); }}
+          className="mt-8 px-8 py-3 rounded-full text-white font-bold text-lg shadow-md"
+          style={{ backgroundColor: colors.orange }}
+        >
+          Jugar de nuevo
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col h-full justify-center">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold" style={{ color: colors.darkBlue }}>Clasifica la Acción</h1>
+        <span className="text-lg font-bold bg-white px-4 py-1 rounded-full shadow" style={{ color: colors.orange }}>
+          {currentIndex + 1} / {situations.length}
+        </span>
+      </div>
+      
+      <div className="bg-white p-8 rounded-3xl shadow-lg w-full max-w-3xl mx-auto text-center relative overflow-hidden">
+        
+        {feedback === 'success' && (
+          <div className="absolute inset-0 bg-green-100 flex flex-col items-center justify-center z-10 animate-fade-in">
+            <CheckCircle size={80} className="text-green-500 mb-4" />
+            <h2 className="text-3xl font-bold text-green-700">¡Muy bien!</h2>
+          </div>
+        )}
+
+        {feedback === 'error' && (
+          <div className="absolute inset-0 bg-red-50 flex flex-col items-center justify-center z-10 animate-fade-in">
+            <AlertTriangle size={80} style={{ color: colors.red }} className="mb-4" />
+            <h2 className="text-3xl font-bold mb-4" style={{ color: colors.red }}>Eso no es correcto</h2>
+            <button 
+              onClick={() => setFeedback(null)}
+              className="px-8 py-3 rounded-full text-white font-bold text-lg shadow-md"
+              style={{ backgroundColor: colors.orange }}
+            >
+              Corregir
+            </button>
+          </div>
+        )}
+
+        <div className="py-10">
+          <p className="text-2xl sm:text-3xl font-bold mb-10" style={{ color: colors.darkBlue }}>
+            "{situations[currentIndex].text}"
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-6">
+            <button 
+              onClick={() => handleChoice(false)}
+              className="px-8 py-6 rounded-2xl text-white font-bold text-xl shadow-md transition hover:scale-105 active:scale-95 bg-green-500 hover:bg-green-600"
+            >
+              Buen Trato 💖
+            </button>
+            <button 
+              onClick={() => handleChoice(true)}
+              className="px-8 py-6 rounded-2xl text-white font-bold text-xl shadow-md transition hover:scale-105 active:scale-95"
+              style={{ backgroundColor: colors.red }}
+            >
+              Violencia 🛑
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Slide9_Aplicacion() {
+  const [step, setStep] = useState(0); // 0: question, 1: feedback
+
+  const handleOption = (correct) => {
+    setStep(correct ? 1 : 2);
+  };
+
+  return (
+    <div className="flex flex-col h-full justify-center">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center" style={{ color: colors.darkBlue }}>
+        Aplicación Práctica
+      </h1>
+      
+      <div className="bg-white p-6 sm:p-10 rounded-3xl shadow-lg border-t-8 max-w-3xl mx-auto" style={{ borderColor: colors.darkBlue }}>
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 flex items-center gap-3" style={{ color: colors.orange }}>
+          <Search size={30} /> Situación Cotidiana
+        </h2>
+        
+        <p className="text-lg sm:text-xl text-gray-700 mb-8 bg-blue-50 p-4 rounded-xl font-medium">
+          Estás en una clase o juego online del colegio, y de pronto un compañero empieza a escribir insultos en el chat dirigidos a ti o a otra persona. ¿Qué es lo mejor que puedes hacer para cuidar tu bienestar y detener la situación?
+        </p>
+
+        {step === 0 && (
+          <div className="space-y-4">
+            <button onClick={() => handleOption(false)} className="w-full p-4 rounded-xl bg-gray-50 border-2 border-gray-200 text-left hover:border-orange-500 font-medium text-lg">
+              A) Insultarlo de vuelta para defenderme.
+            </button>
+            <button onClick={() => handleOption(true)} className="w-full p-4 rounded-xl bg-gray-50 border-2 border-gray-200 text-left hover:border-orange-500 font-medium text-lg">
+              B) Ignorarlo, tomar captura de pantalla y avisar de inmediato a un maestro o a un adulto de confianza.
+            </button>
+            <button onClick={() => handleOption(false)} className="w-full p-4 rounded-xl bg-gray-50 border-2 border-gray-200 text-left hover:border-orange-500 font-medium text-lg">
+              C) Salirme para siempre de la clase y no contarle a nadie.
+            </button>
+          </div>
+        )}
+
+        {step === 1 && (
+          <div className="text-center animate-fade-in">
+            <CheckCircle size={60} className="text-green-500 mx-auto mb-4" />
+            <p className="text-xl font-bold text-green-700 mb-2">¡Excelente decisión!</p>
+            <p className="text-lg text-gray-700">
+              Contestar con agresión genera más violencia. Pedir ayuda a un adulto responsable es la forma más inteligente de proteger tu salud mental y detener el maltrato.
+            </p>
+          </div>
+        )}
+
+        {step === 2 && (
+          <div className="text-center animate-fade-in">
+            <XCircle size={60} style={{ color: colors.red }} className="mx-auto mb-4" />
+            <p className="text-xl font-bold mb-2" style={{ color: colors.red }}>Piénsalo un poco más...</p>
+            <p className="text-lg text-gray-700 mb-6">
+              Responder con violencia o quedarnos callados no soluciona el problema y nos hace sentir peor. Los adultos están para ayudarnos.
+            </p>
+            <button 
+              onClick={() => setStep(0)}
+              className="px-6 py-2 rounded-full text-white font-bold shadow-md"
+              style={{ backgroundColor: colors.orange }}
+            >
+              Intentar de nuevo
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function Slide10_Repaso() {
+  const questions = [
+    { q: "La violencia solo ocurre cuando hay golpes físicos.", a: false },
+    { q: "El estrés por maltrato puede causar dolor de estómago.", a: true },
+    { q: "Pedir ayuda a un profesor es una forma de prevención.", a: true }
+  ];
+
+  const [idx, setIdx] = useState(0);
+  const [msg, setMsg] = useState('');
+  const [showRetry, setShowRetry] = useState(false);
+
+  const answer = (val) => {
+    if (val === questions[idx].a) {
+      setMsg('¡Correcto! Muy bien.');
+      setShowRetry(false);
+      setTimeout(() => {
+        setMsg('');
+        setIdx(idx + 1);
+      }, 1500);
+    } else {
+      setMsg('Incorrecto. Analiza bien la frase.');
+      setShowRetry(true);
+    }
+  };
+
+  if (idx >= questions.length) {
+    return (
+      <div className="text-center h-full flex flex-col justify-center items-center">
+        <Star size={80} style={{ color: colors.orange }} className="mb-4" />
+        <h2 className="text-3xl font-bold" style={{ color: colors.darkBlue }}>¡Repaso superado!</h2>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col h-full justify-center">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-8 text-center" style={{ color: colors.darkBlue }}>
+        Repaso Final: ¿Verdadero o Falso?
+      </h1>
+
+      <div className="bg-white p-8 rounded-3xl shadow-lg max-w-2xl mx-auto text-center relative">
+        <div className="mb-4 text-sm font-bold text-gray-400">Pregunta {idx + 1} de {questions.length}</div>
+        <p className="text-2xl font-bold mb-8" style={{ color: colors.darkBlue }}>
+          {questions[idx].q}
+        </p>
+
+        {!msg ? (
+          <div className="flex justify-center gap-6">
+            <button 
+              onClick={() => answer(true)}
+              className="px-10 py-4 rounded-xl text-white font-bold text-xl shadow-md bg-green-500 hover:bg-green-600 active:scale-95"
+            >
+              Verdadero
+            </button>
+            <button 
+              onClick={() => answer(false)}
+              className="px-10 py-4 rounded-xl text-white font-bold text-xl shadow-md active:scale-95"
+              style={{ backgroundColor: colors.red }}
+            >
+              Falso
+            </button>
+          </div>
+        ) : (
+          <div className="py-4 animate-fade-in">
+            <p className={`text-2xl font-bold mb-4 ${showRetry ? 'text-red-600' : 'text-green-600'}`}>
+              {msg}
+            </p>
+            {showRetry && (
+              <button 
+                onClick={() => { setMsg(''); setShowRetry(false); }}
+                className="px-6 py-2 rounded-full text-white font-bold shadow-md"
+                style={{ backgroundColor: colors.orange }}
+              >
+                Inténtalo de nuevo
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function Slide11_Metacognicion() {
+  const [checked, setChecked] = useState([false, false, false]);
+
+  const toggleCheck = (index) => {
+    const newChecked = [...checked];
+    newChecked[index] = !newChecked[index];
+    setChecked(newChecked);
+  };
+
+  return (
+    <div className="flex flex-col h-full justify-center">
+      <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-center" style={{ color: colors.darkBlue }}>
+        ¿Qué aprendí hoy?
+      </h1>
+      <p className="text-center text-lg mb-8" style={{ color: colors.orange }}>
+        Haz clic en las casillas para confirmar tus aprendizajes:
+      </p>
+
+      <div className="space-y-4 max-w-3xl mx-auto w-full">
+        {[
+          "Comprendo que la violencia puede dañar mi cuerpo y mi mente.",
+          "Sé que mi sistema nervioso reacciona al peligro para protegerme.",
+          "Conozco la importancia de pedir ayuda a un adulto de confianza."
+        ].map((text, i) => (
+          <button 
+            key={i}
+            onClick={() => toggleCheck(i)}
+            className={`w-full p-6 rounded-2xl border-2 flex items-center gap-4 transition-all ${checked[i] ? 'bg-green-50 border-green-500' : 'bg-white border-gray-200 hover:border-orange-300'}`}
+          >
+            <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center ${checked[i] ? 'bg-green-500 border-green-500 text-white' : 'border-gray-300'}`}>
+              {checked[i] && <CheckCircle size={20} />}
+            </div>
+            <p className="text-lg sm:text-xl font-medium text-left text-gray-800">{text}</p>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Slide12_Cierre() {
+  return (
+    <div className="text-center flex flex-col items-center justify-center h-full animate-fade-in">
+      <div className="relative mb-8">
+        <Award size={140} style={{ color: colors.yellow }} />
+        <Star size={40} style={{ color: colors.orange }} className="absolute -top-4 -right-4 animate-pulse" />
+        <Star size={30} style={{ color: colors.orange }} className="absolute bottom-0 -left-4 animate-pulse delay-100" />
+      </div>
+      
+      <h1 className="text-4xl sm:text-5xl font-extrabold mb-4" style={{ color: colors.darkBlue }}>
+        ¡Misión Cumplida!
+      </h1>
+      
+      <div className="bg-white p-6 sm:p-8 rounded-3xl shadow-lg border-2 max-w-2xl" style={{ borderColor: colors.yellow }}>
+        <p className="text-xl sm:text-2xl font-medium mb-2" style={{ color: colors.darkBlue }}>
+          Has completado la <span className="font-bold" style={{ color: colors.orange }}>Lección 14</span>.
+        </p>
+        <p className="text-lg text-gray-700 mt-4">
+          Recuerda: Tu cuerpo y tu mente son un tesoro. ¡Cuidarlos es tu superpoder! 
+        </p>
+      </div>
+      
+      <p className="mt-8 font-bold tracking-widest text-sm opacity-70" style={{ color: colors.darkBlue }}>
+        COLEGIO ESCOLARIS
+      </p>
+    </div>
+  );
+}
